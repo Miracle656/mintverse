@@ -4,7 +4,7 @@ import { supabase, setCurrentWalletAddress } from '../lib/supabase';
 import type { Profile } from '../types';
 
 export function useProfile() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = C:\Users\dell\Documents\zoradev\mintverse\src\hooksuseAccount();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
