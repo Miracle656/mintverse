@@ -1,30 +1,41 @@
+/* =======================
+   Root Container
+======================= */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  color: #111; /* dark text for black & white theme */
+  background-color: #fafafa; /* light background */
+  font-family: 'Inter', sans-serif;
 }
 
+/* =======================
+   Logo Styles
+======================= */
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  will-change: filter, transform;
+  transition: filter 300ms, transform 300ms;
 }
 
+.logo:hover {
+  filter: drop-shadow(0 0 1.5em #00000055);
+  transform: scale(1.05);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 1.5em #111);
+}
+
+/* =======================
+   Logo Animation
+======================= */
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -33,10 +44,56 @@
   }
 }
 
+/* =======================
+   Cards
+======================= */
 .card {
-  padding: 2em;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  transition: transform 200ms, box-shadow 200ms;
 }
 
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+/* =======================
+   Buttons
+======================= */
+button {
+  transition: all 200ms;
+}
+
+button:hover {
+  transform: scale(1.03);
+}
+
+/* =======================
+   Links & Docs
+======================= */
 .read-the-docs {
-  color: #888;
+  color: #555;
+  text-decoration: none;
+}
+
+.read-the-docs:hover {
+  color: #111;
+}
+
+/* =======================
+   Responsive Design
+======================= */
+@media (max-width: 1024px) {
+  #root { padding: 1.5rem; }
+  .logo { height: 5em; padding: 1rem; }
+  .card { padding: 1.5rem; }
+}
+
+@media (max-width: 640px) {
+  #root { padding: 1rem; }
+  .logo { height: 4em; padding: 0.75rem; }
+  .card { padding: 1rem; }
 }
