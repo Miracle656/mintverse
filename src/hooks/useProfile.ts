@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-// import { supabase, setCurrentWalletAddress } from '../lib/supabase';
+import { supabase, setCurrentWalletAddress } from '../lib/supabase';
 import type { Profile } from '../types';
 
 export function useProfile() {

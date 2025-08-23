@@ -17,6 +17,7 @@ export default function TradeModal({ content, onClose }: TradeModalProps) {
   const [amount, setAmount] = useState(content.price_eth.toString());
 
   const handleTrade = async () => {
+    console.log(content.coin_address)
     if (!content.coin_address) {
       toast.error('Coin address not available');
       return;

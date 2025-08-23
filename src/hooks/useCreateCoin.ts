@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { createCoin, getCoinCreateFromLogs, setApiKey } from "@zoralabs/coins-sdk";
-import type { ValidMetadataURI } from "@zoralabs/coins-sdk";
+import { createCoin, getCoinCreateFromLogs, setApiKey, createMetadataBuilder, createZoraUploaderForCreator } from "@zoralabs/coins-sdk";
 import type { Address } from "viem";
 import { parseEther, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
@@ -49,15 +48,15 @@ export function useCreateCoin() {
       console.log("Network ID:", base.id);
       console.log("Public client chain:", publicClient.chain);
       console.log("Zora API Key set:", !!import.meta.env.VITE_ZORA_API_KEY);
-      
+
       // Check if we're on the correct network
       const network = await publicClient.getChainId();
       console.log("Current network ID:", network);
-      
+
       if (network !== base.id) {
         throw new Error(`Wrong network. Expected ${base.id}, got ${network}`);
       }
-      
+
       // Test basic connectivity
       try {
         const blockNumber = await publicClient.getBlockNumber();
@@ -68,16 +67,27 @@ export function useCreateCoin() {
       }
 
       // Create basic coin parameters
+
+      const { createMetadataParameters } = await createMetadataBuilder()
+        .withName(params.name)
+        .withDescription(params.description)
+        .withImage(
+          new File(
+            [(params.image) ? await params.image.arrayBuffer() : new ArrayBuffer(0)],
+            params.image ? params.image.name : "default.png",
+            { type: params.image ? params.image.type : "image/png" }
+          )
+        )
+        .withSymbol(params.symbol)
+        .upload(createZoraUploaderForCreator(address as Address));
+
+        const metadata = createMetadataParameters.metadata;
+
       const coinParams = {
         name: params.name,
         symbol: params.symbol,
         creator: address as Address,
-        metadata: {
-          name: params.name,
-          symbol: params.symbol,
-          uri: (params.imageUrl || "ipfs://bafybeigoxzqzbnxsn35vq7lls3ljxdcwjafxvbvkivprsodzrptpiguysy") as ValidMetadataURI,
-          type: "RAW_URI" as const,
-        },
+        metadata: metadata,
         payoutRecipient: address as Address,
         chainId: base.id,
         currency: "ZORA" as const,
@@ -91,16 +101,16 @@ export function useCreateCoin() {
       };
 
       console.log("Final coin params:", coinParams);
-      
+
       // Create the coin using the Zora SDK
       const result = await createCoin({
         call: coinParams,
         walletClient,
         publicClient,
       });
-      
+
       console.log("Coin creation result:", result);
-      
+
       if (result.hash) {
         console.log("Transaction hash:", result.hash);
         setHash(result.hash);
@@ -110,18 +120,18 @@ export function useCreateCoin() {
       }
     } catch (error) {
       console.error("Error creating coin:", error);
-      
+
       // Log additional error details
       if (error instanceof Error) {
         console.error("Error message:", error.message);
         console.error("Error stack:", error.stack);
       }
-      
+
       // Check if it's a contract error
       if (error && typeof error === 'object' && 'cause' in error) {
         console.error("Error cause:", error.cause);
       }
-      
+
       setIsCreating(false);
       throw error;
     }

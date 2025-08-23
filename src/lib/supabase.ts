@@ -11,9 +11,5 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Helper function to set the current wallet address for RLS
 export const setCurrentWalletAddress = (walletAddress: string) => {
-  return supabase.rpc('set_config', {
-    setting_name: 'app.current_wallet_address',
-    setting_value: walletAddress,
-    is_local: true
-  });
+  return supabase.rpc('set_wallet_address', { address: walletAddress });
 };

@@ -3,6 +3,9 @@ import { useAccount } from 'wagmi';
 import { supabase, setCurrentWalletAddress } from '../lib/supabase';
 import { useCreateCoin } from './useCreateCoin';
 import type { Content } from '../types';
+import { getCoinCreateFromLogs } from "@zoralabs/coins-sdk";
+import { createPublicClient, http } from 'viem';
+import { base } from "viem/chains";
 
 export function useContent() {
   const { address } = useAccount();
@@ -83,8 +86,21 @@ export function useContent() {
         stepSize: '1',
       });
 
+      const publicClient = createPublicClient({
+          chain: base,
+          transport: http("https://mainnet.base.org")
+        });
+      
+
+      const receipt = await publicClient.waitForTransactionReceipt({
+        hash: coinResult.hash,
+      });
+
+      // Parse logs for deployed ERC20 address
+      const deployedCoinAddress = getCoinCreateFromLogs(receipt)?.coin;
+
       // Wait for coin deployment
-      if (!coinResult?.hash) {
+      if (!deployedCoinAddress) {
         throw new Error('Failed to create coin');
       }
 
@@ -94,7 +110,7 @@ export function useContent() {
         .insert({
           ...contentData,
           creator_id: profile.id,
-          coin_address: coinResult.hash, // This will be updated when we get the actual address
+          coin_address: deployedCoinAddress, // This will be updated when we get the actual address
           is_published: true,
         })
         .select(`

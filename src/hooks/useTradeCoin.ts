@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Address } from "viem";
-import { parseEther, createPublicClient, http } from "viem";
+import type { Address, erc20Abi } from "viem";
+import { parseEther, parseUnits, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useWalletClient } from "wagmi";
 import { tradeCoin } from "@zoralabs/coins-sdk";
@@ -20,6 +20,7 @@ export function useTradeCoin() {
   });
 
   async function buyCreatorCoin(coinAddress: string, ethAmount: string) {
+    console.log("buyCreatorCoin called with:", { coinAddress, ethAmount });
     if (!isConnected || !walletClient || !address) {
       throw new Error("Wallet not connected");
     }
@@ -58,6 +59,15 @@ export function useTradeCoin() {
   }
 
   async function sellCreatorCoin(coinAddress: string, tokenAmount: string) {
+
+    // await walletClient.writeContract({
+    //   address: coinAddress as Address,
+    //   abi: erc20Abi,
+    //   functionName: "approve",
+    //   args: [zoraSpenderAddress, parseUnits(tokenAmount, 18)],
+    // });
+
+    console.log("sellCreatorCoin called with:", { coinAddress, tokenAmount });
     if (!isConnected || !walletClient || !address) {
       throw new Error("Wallet not connected");
     }

@@ -13,7 +13,7 @@ export default function Create() {
     music_url: '',
     preview_url: '',
     cover_image_url: '',
-    price_eth: 0.001,
+    price_eth: 0.00001,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -30,7 +30,7 @@ export default function Create() {
     try {
       await createContent({ ...formData, content_type: contentType });
       toast.success('Content created successfully!');
-      setFormData({ title: '', description: '', content_text: '', music_url: '', preview_url: '', cover_image_url: '', price_eth: 0.001 });
+      setFormData({ title: '', description: '', content_text: '', music_url: '', preview_url: '', cover_image_url: '', price_eth: 0.00001 });
     } catch (error: any) {
       toast.error(error.message || 'Failed to create content');
     }
@@ -105,7 +105,7 @@ export default function Create() {
                 value={formData.price_eth}
                 onChange={handleInputChange}
                 step="0.001"
-                min="0.001"
+                min="0.00001"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 required
               />

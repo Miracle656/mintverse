@@ -8,7 +8,7 @@ export default function CreateCoinForm() {
     name: '',
     symbol: '',
     description: '',
-    initialPrice: '0.001',
+    initialPrice: '0.00001',
     maxSupply: '1000000',
     stepSize: '1',
   });
