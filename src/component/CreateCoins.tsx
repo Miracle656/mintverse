@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCreateCoin } from '../hooks/useCreateCoin';
 
 const CreateCoins = () => {
