@@ -5,7 +5,7 @@ import { useState } from 'react';
 //import type { Address } from "viem";
 import { parseEther, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
-import { useAccount, useWalletClient, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { tradeCoin } from "@zoralabs/coins-sdk";
 import type { TradeParameters } from "@zoralabs/coins-sdk"
 
