@@ -19,7 +19,7 @@ export default function TradeCoin() {
   // const [slippage, setSlippage] = useState('0.05');
   // const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [isTrading, setIsTrading] = useState(false);
+  //const [isTrading, setIsTrading] = useState(false);
   const [receipt, setReceipt] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
 
