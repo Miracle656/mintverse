@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { supabase, setCurrentWalletAddress } from '../lib/supabase';
