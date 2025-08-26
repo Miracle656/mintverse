@@ -2,7 +2,7 @@ import { useState } from 'react';
 // import { useTradeCoin } from '../hooks/useTradeCoin';
 // import type { TradeParams } from '../hooks/useTradeCoin';
 
-import type { Address } from "viem";
+//import type { Address } from "viem";
 import { parseEther, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useWalletClient, useWaitForTransactionReceipt } from "wagmi";
