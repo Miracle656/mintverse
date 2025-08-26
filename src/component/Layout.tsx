@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Home, FileText, Music, User, Plus, Menu, X } from 'lucide-react';
 import WalletConnect from './WalletConnect';
