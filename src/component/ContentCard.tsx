@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Heart, MessageCircle, Share2, ShoppingCart } from 'lucide-react';
 import type { Content } from '../types';
 import TradeModal from './TradeModal';
