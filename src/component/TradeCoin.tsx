@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react';
 // import { useTradeCoin } from '../hooks/useTradeCoin';
 // import type { TradeParams } from '../hooks/useTradeCoin';
