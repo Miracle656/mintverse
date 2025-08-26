@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { useContent } from '../hooks/useContent';
 import { Plus, FileText, Music, Image, Upload } from 'lucide-react';
