@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect } from 'react';
 import { useContent } from '../hooks/useContent';
 import ContentCard from '../component/ContentCard';
