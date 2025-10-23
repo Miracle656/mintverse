@@ -65,17 +65,6 @@ VITE_ZORA_API_KEY=
 
 ---
 
-## 📸 Screenshots (Optional)
-_Add preview images of your UI here — home, profile, purchase flow._
-
----
-
-## 🛠️ Roadmap
-
-- [ ] Integrate Soroban smart contracts for on-chain content minting  
-- [ ] Enable tipping and comments  
-- [ ] Add multi-wallet support  
-- [ ] Launch analytics dashboard for creators  
 
 ---
 
