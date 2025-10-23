@@ -51,6 +51,38 @@ export function useContent() {
     }
   };
 
+  const loadPurchasedContent = async () => {
+    if (!address) return [];
+
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('wallet_address', address)
+        .single();
+
+      if (!profile) return [];
+
+      const { data, error } = await supabase
+        .from('content_purchases')
+        .select(`
+          content:content_id (
+            *,
+            creator:profiles!creator_id(*)
+          )
+        `)
+        .eq('buyer_id', profile.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return data.map((item) => item.content);
+    } catch (err: any) {
+      setError(err.message);
+      return [];
+    }
+  };
+
   const createContent = async (contentData: {
     title: string;
     description?: string;
@@ -67,7 +99,6 @@ export function useContent() {
     setError(null);
 
     try {
-      // Get user profile
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')
@@ -76,7 +107,6 @@ export function useContent() {
 
       if (!profile) throw new Error('Profile not found');
 
-      // Create coin first
       const coinResult = await createMyCoin({
         name: contentData.title,
         symbol: contentData.title.substring(0, 5).toUpperCase(),
@@ -88,30 +118,26 @@ export function useContent() {
       });
 
       const publicClient = createPublicClient({
-          chain: base,
-          transport: http("https://mainnet.base.org")
-        });
-      
+        chain: base,
+        transport: http("https://mainnet.base.org")
+      });
 
       const receipt = await publicClient.waitForTransactionReceipt({
         hash: coinResult.hash,
       });
 
-      // Parse logs for deployed ERC20 address
       const deployedCoinAddress = getCoinCreateFromLogs(receipt)?.coin;
 
-      // Wait for coin deployment
       if (!deployedCoinAddress) {
         throw new Error('Failed to create coin');
       }
 
-      // Create content with coin address
       const { data, error } = await supabase
         .from('content')
         .insert({
           ...contentData,
           creator_id: profile.id,
-          coin_address: deployedCoinAddress, // This will be updated when we get the actual address
+          coin_address: deployedCoinAddress,
           is_published: true,
         })
         .select(`
@@ -122,7 +148,6 @@ export function useContent() {
 
       if (error) throw error;
 
-      // Add to local state
       setContents(prev => [data, ...prev]);
       return data;
     } catch (err: any) {
@@ -154,7 +179,7 @@ export function useContent() {
           amount_paid: amountPaid,
         });
 
-      if (error) throw error;
+      if (error && error.code !== '23505') throw error; // ignore duplicate purchases
     } catch (err: any) {
       setError(err.message);
       throw err;
@@ -180,7 +205,7 @@ export function useContent() {
           user_id: profile.id,
         });
 
-      if (error && error.code !== '23505') throw error; // Ignore duplicate key error
+      if (error && error.code !== '23505') throw error;
     } catch (err: any) {
       setError(err.message);
     }
@@ -215,6 +240,7 @@ export function useContent() {
     loading,
     error,
     loadContents,
+    loadPurchasedContent,
     createContent,
     purchaseContent,
     likeContent,
