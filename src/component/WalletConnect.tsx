@@ -1,4 +1,3 @@
-import React from 'react';
 import { usePrivy, useLogin } from '@privy-io/react-auth';
 import { useAccount } from 'wagmi';
 import '../index.css';
