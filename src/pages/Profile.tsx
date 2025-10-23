@@ -4,8 +4,19 @@ import { User, Edit3, Save, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Profile() {
-  const { profile, loading, error, updateProfile } = useProfile();
+  const {
+    profile,
+    createdContent = [],
+    boughtContent = [],
+    loading,
+    error,
+    updateProfile,
+    refreshProfile,
+  } = useProfile();
+
   const [isEditing, setIsEditing] = useState(false);
+  const [activeTab, setActiveTab] = useState<'created' | 'bought'>('created');
+
   const [formData, setFormData] = useState({
     username: '',
     bio: '',
@@ -32,6 +43,7 @@ export default function Profile() {
       await updateProfile(formData);
       setIsEditing(false);
       toast.success('Profile updated successfully!');
+      refreshProfile?.();
     } catch (err: any) {
       toast.error(err.message || 'Failed to update profile');
     }
@@ -64,6 +76,10 @@ export default function Profile() {
     );
   }
 
+  // guards to avoid runtime errors
+  const created = Array.isArray(createdContent) ? createdContent : [];
+  const bought = Array.isArray(boughtContent) ? boughtContent : [];
+
   return (
     <div className="max-w-lg mx-auto px-4 py-6">
       {/* Header */}
@@ -81,6 +97,7 @@ export default function Profile() {
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
               {profile.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={profile.avatar_url}
                   alt="Avatar"
@@ -162,7 +179,7 @@ export default function Profile() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200">
               <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <h4 className="text-lg font-bold text-gray-900">{profile.content_count || 0}</h4>
+                <h4 className="text-lg font-bold text-gray-900">{profile.content_count || created.length}</h4>
                 <p className="text-gray-600 text-xs">Content Created</p>
               </div>
               <div className="text-center p-4 bg-gray-50 rounded-lg">
@@ -172,6 +189,66 @@ export default function Profile() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Tabs for Created / Bought */}
+      <div className="max-w-lg mx-auto px-4 py-6">
+        <div className="flex items-center space-x-4 border-b pb-2">
+          <button
+            onClick={() => setActiveTab('created')}
+            className={`py-2 px-3 text-sm font-medium ${activeTab === 'created' ? 'border-b-2 border-black' : 'text-gray-500'}`}
+          >
+            Created ({created.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('bought')}
+            className={`py-2 px-3 text-sm font-medium ${activeTab === 'bought' ? 'border-b-2 border-black' : 'text-gray-500'}`}
+          >
+            Bought ({bought.length})
+          </button>
+        </div>
+
+        <div className="mt-4">
+          {activeTab === 'created' ? (
+            created.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {created.map((item: any) => (
+                  <div key={item.id} className="border rounded-lg p-3">
+                    {item.cover_image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.cover_image_url} alt={item.title} className="w-full h-40 object-cover rounded-md" />
+                    ) : (
+                      <div className="w-full h-40 bg-gray-100 rounded-md flex items-center justify-center">No image</div>
+                    )}
+                    <h3 className="font-bold mt-2 text-sm">{item.title}</h3>
+                    <p className="text-xs text-gray-500">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No created content yet.</p>
+            )
+          ) : (
+            bought.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {bought.map((item: any) => (
+                  <div key={item.id} className="border rounded-lg p-3">
+                    {item.cover_image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.cover_image_url} alt={item.title} className="w-full h-40 object-cover rounded-md" />
+                    ) : (
+                      <div className="w-full h-40 bg-gray-100 rounded-md flex items-center justify-center">No image</div>
+                    )}
+                    <h3 className="font-bold mt-2 text-sm">{item.title}</h3>
+                    <p className="text-xs text-gray-500">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No purchases yet.</p>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

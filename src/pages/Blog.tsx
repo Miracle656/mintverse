@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useContent } from '../hooks/useContent';
 import ContentCard from '../component/ContentCard';
 import { Loader2, FileText } from 'lucide-react';
@@ -66,7 +66,6 @@ export default function Blogs() {
               onLike={likeContent}
               onUnlike={unlikeContent}
               onShare={handleShare}
-              className="bg-neutral-50 border border-neutral-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
             />
           ))}
         </div>

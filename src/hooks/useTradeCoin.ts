@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Address, erc20Abi } from "viem";
-import { parseEther, parseUnits, createPublicClient, http } from "viem";
+import type { Address } from "viem";
+import { parseEther, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useWalletClient } from "wagmi";
 import { tradeCoin } from "@zoralabs/coins-sdk";

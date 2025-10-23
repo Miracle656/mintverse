@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Heart, MessageCircle, Share2, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, MessageCircle, Share2, Sparkle } from 'lucide-react';
 import type { Content } from '../types';
 import TradeModal from './TradeModal';
 
@@ -129,7 +129,7 @@ export default function ContentCard({ content, onLike, onUnlike, onShare }: Cont
               onClick={() => setShowTradeModal(true)}
               className="flex items-center space-x-1 bg-neutral-900 text-white px-3 py-1.5 rounded-lg hover:bg-neutral-800 transition-colors text-xs"
             >
-              <ShoppingCart size={14} />
+              <Sparkle size={14} />
               <span>{content.is_purchased ? 'Sell' : 'Buy'}</span>
             </button>
           </div>

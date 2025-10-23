@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Home, FileText, Music, User, Plus, Menu, X } from 'lucide-react';
 import WalletConnect from './WalletConnect';
+import cvlogo from '../assets/contentv.png'
 
 export default function Layout() {
   const location = useLocation();
@@ -22,7 +23,7 @@ export default function Layout() {
         <div className="flex items-center justify-between px-4 py-3">
           {/* App Name */}
           <Link to="/" className="text-xl font-bold text-blue-400">
-            ContentVerse
+            <img className='h-16' src={cvlogo} alt="cvlogo" />
           </Link>
 
           {/* Desktop Nav */}
