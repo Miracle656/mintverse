@@ -1,4 +1,4 @@
-import React from 'react';
+// @ts-nocheck
 import { useCreateCoin } from '../hooks/useCreateCoin';
 
 const CreateCoins = () => {

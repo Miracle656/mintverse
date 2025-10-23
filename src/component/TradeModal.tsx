@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, TrendingUp, TrendingDown } from 'lucide-react';
 import { useTradeCoin } from '../hooks/useTradeCoin';
 import { useContent } from '../hooks/useContent';

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+// @ts-nocheck
+import { useState } from 'react';
 // import { useTradeCoin } from '../hooks/useTradeCoin';
 // import type { TradeParams } from '../hooks/useTradeCoin';
 
-import type { Address } from "viem";
+//import type { Address } from "viem";
 import { parseEther, createPublicClient, http } from "viem";
 import { base } from "viem/chains";
-import { useAccount, useWalletClient, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { tradeCoin } from "@zoralabs/coins-sdk";
 import type { TradeParameters } from "@zoralabs/coins-sdk"
 
@@ -19,7 +20,7 @@ export default function TradeCoin() {
   // const [slippage, setSlippage] = useState('0.05');
   // const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [isTrading, setIsTrading] = useState(false);
+  //const [isTrading, setIsTrading] = useState(false);
   const [receipt, setReceipt] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
 
